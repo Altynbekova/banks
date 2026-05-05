@@ -13,11 +13,16 @@ public class MyAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return(PageFragment.newInstance(position));
+        Fragment fragment;
+        if (position == 0) {
+            fragment = PageFragment.newInstance(position);
+        } else fragment = new BankFragment();
+
+        return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 2;
     }
 }

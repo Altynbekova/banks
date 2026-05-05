@@ -8,9 +8,13 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-public class PageFragment extends Fragment {
+import com.altynbekova.banks.databinding.FragmentPageBinding;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.mapview.MapView;
 
-    private int pageNumber;
+public class PageFragment extends Fragment {
+    private MapView mapView;
+    private FragmentPageBinding binding;
 
     public static PageFragment newInstance(int page) {
         PageFragment fragment = new PageFragment();
@@ -26,16 +30,30 @@ public class PageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageNumber = getArguments() != null ? getArguments().getInt("num") : 1;
+
+        MapKitFactory.initialize(requireContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View result=inflater.inflate(R.layout.fragment_page, container, false);
-        TextView pageHeader = result.findViewById(R.id.displayText);
-        String header = "Фрагмент " + (pageNumber+1);
-        pageHeader.setText(header);
-        return result;
+//        View result=inflater.inflate(R.layout.fragment_page, container, false);
+        binding = FragmentPageBinding.inflate(inflater, container, false);
+        mapView = binding.mapview;
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        MapKitFactory.getInstance().onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        MapKitFactory.getInstance().onStop();
+        super.onStop();
     }
 }

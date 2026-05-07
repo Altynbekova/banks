@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.altynbekova.banks.databinding.FragmentPageBinding;
+import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
 public class PageFragment extends Fragment {
@@ -37,9 +40,15 @@ public class PageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        View result=inflater.inflate(R.layout.fragment_page, container, false);
         binding = FragmentPageBinding.inflate(inflater, container, false);
         mapView = binding.mapview;
+        mapView.getMap().move(new CameraPosition(
+                new Point(55.030144, 82.920515),
+                10.0f,
+                0.0f,
+                30.0f
+        ), new Animation(Animation.Type.LINEAR, 5));
+
         return binding.getRoot();
     }
 

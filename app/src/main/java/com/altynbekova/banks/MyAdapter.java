@@ -15,7 +15,7 @@ public class MyAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         Fragment fragment;
         if (position == 0) {
-            fragment = PageFragment.newInstance(position);
+            fragment = MapFragment.newInstance(position);
         } else fragment = new BankFragment();
 
         return fragment;

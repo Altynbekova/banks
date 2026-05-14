@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -15,19 +14,19 @@ import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
-public class PageFragment extends Fragment {
+public class MapFragment extends Fragment {
     private MapView mapView;
     private FragmentPageBinding binding;
 
-    public static PageFragment newInstance(int page) {
-        PageFragment fragment = new PageFragment();
+    public static MapFragment newInstance(int page) {
+        MapFragment fragment = new MapFragment();
         Bundle args=new Bundle();
         args.putInt("num", page);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public PageFragment() {
+    public MapFragment() {
     }
 
     @Override
@@ -47,7 +46,7 @@ public class PageFragment extends Fragment {
                 10.0f,
                 0.0f,
                 30.0f
-        ), new Animation(Animation.Type.LINEAR, 5));
+        ), new Animation(Animation.Type.LINEAR, 1));
 
         return binding.getRoot();
     }

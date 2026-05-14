@@ -1,5 +1,9 @@
 package com.altynbekova.banks;
 
+import android.util.Log;
+
+import com.yandex.mapkit.geometry.Point;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +15,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 
 public class Util {
+    private static final String TAG = "Banks Map";
     public static List<Bank> parseResponse(ResponseBody body) {
         List<Bank> result = new ArrayList<>();
 
@@ -18,12 +23,28 @@ public class Util {
             JSONObject jsonObject = new JSONObject(body.string());
             JSONArray suggestions = jsonObject.getJSONArray("suggestions");
             for (int i = 0; i < suggestions.length(); i++) {
+                JSONObject suggestion = (JSONObject) suggestions.get(i);
+                String bankName = suggestion.getString("value");
+                JSONObject addressObject = suggestion
+                        .getJSONObject("data")
+                        .getJSONObject("address");
+                String bankAddress = addressObject.getString("value");
+                JSONObject addressData = addressObject.getJSONObject("data");
+                String lat = addressData.getString("geo_lat");
+                String lon = addressData.getString("geo_lon");
+                String status = suggestion
+                        .getJSONObject("data")
+                        .getJSONObject("state")
+                        .getString("status");
 
+                result.add(new Bank(
+                        bankName,
+                        bankAddress,
+                        status,
+                        new Point(Float.parseFloat(lat), Float.parseFloat(lon))));
             }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (JSONException | IOException e) {
+            Log.e(TAG, "parseResponse: cannot parse response", e);
         }
 
         return result;

@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yandex.mapkit.geometry.Point;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -29,10 +32,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class BankFragment extends Fragment {
     private static final String TAG = "Banks Map";
-    private static final List<Bank> banks = List.of(
-            new Bank("bank1", "address1", "active"),
-            new Bank("bank2", "address2", "active")
-    );
+    private static List<Bank> banks = new ArrayList<>(
+            List.of(
+            new Bank("bank1", "address1", "active",
+                    new Point(55.030100, 82.920580)),
+            new Bank("bank2", "address2", "active",
+                    new Point(55.030200, 82.920500))
+    ));
+
+    private MyBankRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,7 +71,8 @@ public class BankFragment extends Fragment {
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new MyBankRecyclerViewAdapter(banks));
+        adapter = new MyBankRecyclerViewAdapter(banks);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -98,6 +107,11 @@ public class BankFragment extends Fragment {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     List<Bank> banksResponse = Util.parseResponse(response.body());
+
+                    getActivity().runOnUiThread(
+                            () -> adapter.updateItems(banksResponse));
+
+                    Log.d(TAG, "onResponse: api response " + banksResponse);
                 }
             }
 

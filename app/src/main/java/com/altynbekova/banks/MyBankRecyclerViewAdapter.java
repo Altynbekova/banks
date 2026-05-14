@@ -33,8 +33,8 @@ public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = banks.get(position);
-        holder.mIdView.setText(banks.get(position).getName());
-        holder.mContentView.setText(banks.get(position).getAddress());
+        holder.name.setText(banks.get(position).getName());
+        holder.address.setText(banks.get(position).getAddress());
         holder.status.setText(banks.get(position).getStatus());
     }
 
@@ -44,21 +44,22 @@ public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView name;
+        public final TextView address;
         public final TextView status;
         public Bank mItem;
 
         public ViewHolder(FragmentBankBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            name = binding.name;
+            address = binding.address;
             status = binding.status;
         }
+    }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
+    public void updateItems(List<Bank> newBanks){
+        banks.clear();
+        banks.addAll(newBanks);
+        notifyDataSetChanged();
     }
 }

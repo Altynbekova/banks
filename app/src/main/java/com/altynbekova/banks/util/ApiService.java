@@ -1,4 +1,4 @@
-package com.altynbekova.banks;
+package com.altynbekova.banks.util;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;

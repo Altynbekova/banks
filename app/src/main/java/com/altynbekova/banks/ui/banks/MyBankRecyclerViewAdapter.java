@@ -1,4 +1,4 @@
-package com.altynbekova.banks;
+package com.altynbekova.banks.ui.banks;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.altynbekova.banks.model.Bank;
 import com.altynbekova.banks.placeholder.PlaceholderContent.PlaceholderItem;
 import com.altynbekova.banks.databinding.FragmentBankBinding;
 

@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".BankFragment"
+    tools:context=".ui.banks.BankFragment"
     tools:listitem="@layout/fragment_bank" />

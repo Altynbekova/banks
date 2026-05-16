@@ -1,4 +1,4 @@
-package com.altynbekova.banks;
+package com.altynbekova.banks.ui.banks;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.altynbekova.banks.util.ApiService;
+import com.altynbekova.banks.model.Bank;
+import com.altynbekova.banks.R;
+import com.altynbekova.banks.util.Util;
 import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;

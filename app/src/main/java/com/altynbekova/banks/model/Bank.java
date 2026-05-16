@@ -1,12 +1,21 @@
-package com.altynbekova.banks;
+package com.altynbekova.banks.model;
+
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import com.yandex.mapkit.geometry.Point;
 
+@Entity (tableName = "banks")
 public class Bank {
+    @PrimaryKey
+    private int id;
     private String name;
     private String address;
     private String status;
-
+    private float lat;
+    private float lon;
+    @Ignore
     private Point point;
 
     public Bank(String name, String address, String status, Point point) {
@@ -14,6 +23,30 @@ public class Bank {
         this.address = address;
         this.status = status;
         this.point = point;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public float getLon() {
+        return lon;
+    }
+
+    public void setLon(float lon) {
+        this.lon = lon;
     }
 
     public Point getPoint() {

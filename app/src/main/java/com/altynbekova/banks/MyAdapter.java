@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.altynbekova.banks.ui.banks.BankFragment;
+import com.altynbekova.banks.ui.map.MapFragment;
+
 public class MyAdapter extends FragmentStateAdapter {
     public MyAdapter(FragmentActivity fragmentActivity) {
         super(fragmentActivity);

@@ -1,4 +1,4 @@
-package com.altynbekova.banks.dao;
+package com.altynbekova.banks.db;
 
 import android.content.Context;
 
@@ -6,7 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.altynbekova.banks.model.Bank;
+import com.altynbekova.banks.db.dao.BankDao;
+import com.altynbekova.banks.db.model.Bank;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package com.altynbekova.banks.model;
+package com.altynbekova.banks.db.model;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -17,6 +17,9 @@ public class Bank {
     private float lon;
     @Ignore
     private Point point;
+
+    public Bank() {
+    }
 
     public Bank(String name, String address, String status, Point point) {
         this.name = name;

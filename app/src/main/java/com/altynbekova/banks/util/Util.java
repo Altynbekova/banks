@@ -2,7 +2,7 @@ package com.altynbekova.banks.util;
 
 import android.util.Log;
 
-import com.altynbekova.banks.model.Bank;
+import com.altynbekova.banks.db.model.Bank;
 import com.yandex.mapkit.geometry.Point;
 
 import org.json.JSONArray;
@@ -13,14 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Util {
     public static final String TAG = "Banks Map";

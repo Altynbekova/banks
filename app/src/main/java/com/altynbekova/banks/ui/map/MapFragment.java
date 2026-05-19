@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.altynbekova.banks.R;
 import com.altynbekova.banks.databinding.FragmentPageBinding;
-import com.altynbekova.banks.model.Bank;
+import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.util.ApiService;
 import com.altynbekova.banks.util.Util;
 import com.yandex.mapkit.Animation;

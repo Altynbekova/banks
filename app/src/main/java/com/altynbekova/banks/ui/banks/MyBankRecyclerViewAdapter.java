@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.altynbekova.banks.model.Bank;
+import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.placeholder.PlaceholderContent.PlaceholderItem;
 import com.altynbekova.banks.databinding.FragmentBankBinding;
 

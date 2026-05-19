@@ -1,6 +1,7 @@
 package com.altynbekova.banks.ui.banks;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +11,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.altynbekova.banks.util.ApiService;
-import com.altynbekova.banks.model.Bank;
 import com.altynbekova.banks.R;
+import com.altynbekova.banks.db.model.Bank;
+import com.altynbekova.banks.util.ApiService;
 import com.altynbekova.banks.util.Util;
+import com.altynbekova.banks.viewmodel.BankViewModel;
 import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
@@ -36,15 +39,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class BankFragment extends Fragment {
     private static final String TAG = "Banks Map";
-    private static List<Bank> banks = new ArrayList<>(
+    private static final List<Bank> banks = new ArrayList<>(
             List.of(
-            new Bank("bank1", "address1", "active",
-                    new Point(55.030100, 82.920580)),
-            new Bank("bank2", "address2", "active",
-                    new Point(55.030200, 82.920500))
-    ));
+                    new Bank("bank1", "address1", "active",
+                            new Point(55.030100, 82.920580)),
+                    new Bank("bank2", "address2", "active",
+                            new Point(55.030200, 82.920500))
+            ));
 
     private MyBankRecyclerViewAdapter adapter;
+    private BankViewModel bankViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -85,6 +89,16 @@ public class BankFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fetchBanksData();
+
+        bankViewModel = new ViewModelProvider(requireActivity()).get(BankViewModel.class);
+
+
+        AsyncTask.execute(() ->
+                bankViewModel.insert(new Bank("new bank",
+                        "address new",
+                        "ACTIVE",
+                        new Point()))
+        );
     }
 
     private void fetchBanksData() {
@@ -114,7 +128,6 @@ public class BankFragment extends Fragment {
 
                     getActivity().runOnUiThread(
                             () -> adapter.updateItems(banksResponse));
-
                     Log.d(TAG, "onResponse: api response " + banksResponse);
                 }
             }

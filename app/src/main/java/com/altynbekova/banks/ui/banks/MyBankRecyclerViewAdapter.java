@@ -18,7 +18,10 @@ import java.util.List;
  */
 public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Bank> banks;
+    private List<Bank> banks;
+
+    public MyBankRecyclerViewAdapter() {
+    }
 
     public MyBankRecyclerViewAdapter(List<Bank> banks) {
         this.banks = banks;

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,7 +80,7 @@ public class BankFragment extends Fragment {
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new MyBankRecyclerViewAdapter(banks);
+        adapter = new MyBankRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -88,17 +89,20 @@ public class BankFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fetchBanksData();
+        //fetchBanksData();
 
         bankViewModel = new ViewModelProvider(requireActivity()).get(BankViewModel.class);
 
-
-        AsyncTask.execute(() ->
-                bankViewModel.insert(new Bank("new bank",
-                        "address new",
-                        "ACTIVE",
-                        new Point()))
-        );
+        bankViewModel.getBanks().observe(requireActivity(),
+                new Observer<List<Bank>>() {
+                    @Override
+                    public void onChanged(List<Bank> banks) {
+                        adapter.updateItems(banks);
+                    }
+                });
+        /*AsyncTask.execute(() ->
+                bankViewModel.insertAll(banks)
+        );*/
     }
 
     private void fetchBanksData() {

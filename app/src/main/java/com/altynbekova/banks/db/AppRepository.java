@@ -3,6 +3,8 @@ package com.altynbekova.banks.db;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.altynbekova.banks.db.dao.BankDao;
 import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.util.Util;
@@ -24,7 +26,7 @@ public class AppRepository {
         bankDao = db.bankDao();
     }
 
-    public List<Bank> getBanks() {
+    /*public List<Bank> getBanks() {
         Future<List<Bank>> future = AppDatabase.databaseWriteExecutor.submit(new Callable<List<Bank>>() {
             @Override
             public List<Bank> call() throws Exception {
@@ -39,10 +41,19 @@ public class AppRepository {
         }
 
         return banks;
+    }*/
+
+    public LiveData<List<Bank>> getBanks() {
+        return bankDao.getAll();
     }
 
     public void insert(Bank bank){
         AppDatabase.databaseWriteExecutor.execute(() ->
                 bankDao.insert(bank));
+    }
+
+    public void insertAll(List<Bank> banks){
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                bankDao.insertAll(banks));
     }
 }

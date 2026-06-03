@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BankViewModel extends AndroidViewModel {
     private final AppRepository appRepository;
-    private final LiveData<List<Bank>> banks;
+//    private final LiveData<List<Bank>> banks;
 
     public BankViewModel(@NonNull Application application) {
         super(application);

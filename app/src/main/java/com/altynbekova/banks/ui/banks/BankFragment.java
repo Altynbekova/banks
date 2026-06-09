@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.altynbekova.banks.R;
 import com.altynbekova.banks.db.model.Bank;
+import com.altynbekova.banks.ui.OnBankClickListener;
 import com.altynbekova.banks.util.ApiService;
 import com.altynbekova.banks.util.Util;
 import com.altynbekova.banks.viewmodel.BankViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
@@ -80,10 +84,45 @@ public class BankFragment extends Fragment {
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new MyBankRecyclerViewAdapter();
+        adapter = new MyBankRecyclerViewAdapter(new OnBankClickListener() {
+            @Override
+            public void onBankClick(Bank bank, int position) {
+                showEditBankDialog(bank, position, adapter);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    private void showEditBankDialog(Bank bank, int position, MyBankRecyclerViewAdapter adapter) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_bank, null);
+        bottomSheetDialog.setContentView(dialogView);
+
+        EditText etBankName = dialogView.findViewById(R.id.etBankName);
+        Button btnSaveBank = dialogView.findViewById(R.id.btnSaveBank);
+
+        // Fill current text
+        etBankName.setText(bank.getName());
+
+        btnSaveBank.setOnClickListener(v -> {
+            String updatedName = etBankName.getText().toString().trim();
+            if (!updatedName.isEmpty()) {
+                // Update local object
+                bank.setName(updatedName);
+
+                // TODO: Persist changes to your database / remote server here if needed
+
+                // Notify adapter about dataset updates
+                adapter.notifyItemChanged(position);
+                bottomSheetDialog.dismiss();
+            } else {
+                etBankName.setError("Поле не должно быть пустым");
+            }
+        });
+
+        bottomSheetDialog.show();
     }
 
     @Override

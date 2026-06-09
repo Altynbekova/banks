@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.placeholder.PlaceholderContent.PlaceholderItem;
 import com.altynbekova.banks.databinding.FragmentBankBinding;
+import com.altynbekova.banks.ui.OnBankClickListener;
 
 import java.util.List;
 
@@ -19,8 +20,10 @@ import java.util.List;
 public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecyclerViewAdapter.ViewHolder> {
 
     private List<Bank> banks;
+    private OnBankClickListener clickListener;
 
-    public MyBankRecyclerViewAdapter() {
+    public MyBankRecyclerViewAdapter(OnBankClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     public MyBankRecyclerViewAdapter(List<Bank> banks) {
@@ -40,6 +43,12 @@ public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecycl
         holder.name.setText(banks.get(position).getName());
         holder.address.setText(banks.get(position).getAddress());
         holder.status.setText(banks.get(position).getStatus());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onBankClick(banks.get(position), position);
+            }
+        });
     }
 
     @Override

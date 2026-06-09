@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.altynbekova.banks.R;
@@ -13,11 +15,18 @@ import com.altynbekova.banks.databinding.FragmentPageBinding;
 import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.util.ApiService;
 import com.altynbekova.banks.util.Util;
+import com.google.android.material.snackbar.Snackbar;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.GeoObjectTapEvent;
+import com.yandex.mapkit.layers.GeoObjectTapListener;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.GeoObjectSelectionMetadata;
+import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.map.MapObjectCollection;
+import com.yandex.mapkit.map.MapObjectTapListener;
+import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
@@ -36,6 +45,13 @@ public class MapFragment extends Fragment {
     private MapView mapView;
     private FragmentPageBinding binding;
     private MapObjectCollection mapObjects;
+    private MapObjectTapListener tapListener = new MapObjectTapListener() {
+        @Override
+        public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {
+            Toast.makeText(requireContext(), "tapped map", Toast.LENGTH_LONG).show();
+            return true;
+        }
+    };
 
     public static MapFragment newInstance(int page) {
         MapFragment fragment = new MapFragment();
@@ -53,6 +69,8 @@ public class MapFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         MapKitFactory.initialize(requireContext());
+
+
     }
 
     @Override
@@ -101,10 +119,12 @@ public class MapFragment extends Fragment {
                     ImageProvider icon = ImageProvider.fromResource(
                             requireContext(), R.drawable.ic_pin);
                     for (Bank bank : banksResponse) {
-                        mapView.getMap().getMapObjects().addPlacemark(
+                        PlacemarkMapObject placemarkMapObject =
+                                mapView.getMap().getMapObjects().addPlacemark(
                                 bank.getPoint(),
                                 icon
                         );
+                        placemarkMapObject.addTapListener(tapListener);
                     }
 
                     Log.d(Util.TAG, "onResponse: api response " + banksResponse);

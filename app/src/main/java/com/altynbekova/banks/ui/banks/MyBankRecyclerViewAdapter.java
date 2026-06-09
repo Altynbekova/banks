@@ -3,13 +3,17 @@ package com.altynbekova.banks.ui.banks;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.placeholder.PlaceholderContent.PlaceholderItem;
 import com.altynbekova.banks.databinding.FragmentBankBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,9 +22,16 @@ import java.util.List;
  */
 public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecyclerViewAdapter.ViewHolder> {
 
-    private List<Bank> banks;
+    private List<Bank> banks = new ArrayList<>();
+    private OnClickListener onClickListener;
 
-    public MyBankRecyclerViewAdapter() {
+    public interface OnClickListener {
+        void onDelete(int id);
+        void update(Bank bank);
+    }
+
+    public MyBankRecyclerViewAdapter(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     public MyBankRecyclerViewAdapter(List<Bank> banks) {
@@ -40,6 +51,18 @@ public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecycl
         holder.name.setText(banks.get(position).getName());
         holder.address.setText(banks.get(position).getAddress());
         holder.status.setText(banks.get(position).getStatus());
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onDelete(holder.mItem.getId());
+            }
+        });
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.update(holder.mItem);
+            }
+        });
     }
 
     @Override
@@ -52,12 +75,16 @@ public class MyBankRecyclerViewAdapter extends RecyclerView.Adapter<MyBankRecycl
         public final TextView address;
         public final TextView status;
         public Bank mItem;
+        public Button deleteBtn;
+        public Button editBtn;
 
         public ViewHolder(FragmentBankBinding binding) {
             super(binding.getRoot());
             name = binding.name;
             address = binding.address;
             status = binding.status;
+            deleteBtn = binding.delete;
+            editBtn = binding.edit;
         }
     }
 

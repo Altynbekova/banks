@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.altynbekova.banks.db.model.Bank;
 
@@ -20,4 +21,14 @@ public interface BankDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Bank> banks);
+
+    @Query("delete from banks where id=:id")
+    void delete(int id);
+
+    @Query("update banks set name=:name, address=:address " +
+            "where id=:id")
+    void update(String name, String address, int id);
+
+    @Update
+    void update(Bank bank);
 }

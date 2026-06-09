@@ -32,4 +32,12 @@ public class BankViewModel extends AndroidViewModel {
     public void insertAll(List<Bank> banks) {
         appRepository.insertAll(banks);
     }
+
+    public void delete(int id) {
+        appRepository.delete(id);
+    }
+
+    public void update(Bank bank) {
+        appRepository.update(bank);
+    }
 }

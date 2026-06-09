@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import com.altynbekova.banks.db.model.Bank;
 import com.altynbekova.banks.util.ApiService;
 import com.altynbekova.banks.util.Util;
 import com.altynbekova.banks.viewmodel.BankViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.yandex.mapkit.geometry.Point;
 
 import java.util.ArrayList;
@@ -78,12 +81,72 @@ public class BankFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bank_list, container, false);
         // Set the adapter
         Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView) view;
+        RecyclerView recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new MyBankRecyclerViewAdapter();
+        adapter = new MyBankRecyclerViewAdapter(
+                new MyBankRecyclerViewAdapter.OnClickListener() {
+                    @Override
+                    public void onDelete(int id) {
+                        bankViewModel.delete(id);
+                    }
+
+                    @Override
+                    public void update(Bank bank) {
+                        showEditDialog(bank);
+                    }
+                }
+        );
         recyclerView.setAdapter(adapter);
 
+        view.findViewById(R.id.fab).setOnClickListener(v -> {showAddDialog()});
+
         return view;
+    }
+
+    private void showAddDialog() {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_bank, null);
+        dialog.setContentView(dialogView);
+
+        EditText bankName = dialogView.findViewById(R.id.bankName);
+        Button saveBtn = dialogView.findViewById(R.id.save);
+
+        saveBtn.setOnClickListener(v -> {
+            Bank newBank = new Bank();
+            newBank.setName(bankName.getText().toString().trim());
+
+            bankViewModel.insert(newBank);
+        });
+
+        dialog.show();
+    }
+
+    private void showEditDialog(Bank bank) {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_bank, null);
+        dialog.setContentView(dialogView);
+
+        EditText bankName = dialogView.findViewById(R.id.bankName);
+        Button saveBtn = dialogView.findViewById(R.id.save);
+
+        bankName.setText(bank.getName());
+
+        saveBtn.setOnClickListener(v -> {
+            String newName = bankName.getText().toString().trim();
+
+            if (!newName.isEmpty() && !newName.equals(bank.getName())){
+                bank.setName(newName);
+
+                bankViewModel.update(bank);
+
+                dialog.dismiss();
+            } else {
+                bankName.setError("Поле не должно быть пустым");
+            }
+        });
+
+        dialog.show();
+
     }
 
     @Override

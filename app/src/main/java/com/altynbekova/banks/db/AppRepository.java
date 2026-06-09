@@ -56,4 +56,14 @@ public class AppRepository {
         AppDatabase.databaseWriteExecutor.execute(() ->
                 bankDao.insertAll(banks));
     }
+
+    public void delete(int id) {
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                bankDao.delete(id));
+    }
+
+    public void update(Bank bank) {
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                bankDao.update(bank));
+    }
 }

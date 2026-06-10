@@ -98,7 +98,7 @@ public class BankFragment extends Fragment {
         );
         recyclerView.setAdapter(adapter);
 
-        view.findViewById(R.id.fab).setOnClickListener(v -> {showAddDialog()});
+        view.findViewById(R.id.fab).setOnClickListener(v -> {showAddDialog();});
 
         return view;
     }

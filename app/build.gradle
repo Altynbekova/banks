@@ -4,11 +4,8 @@ plugins {
 
 android {
     namespace 'com.altynbekova.banks'
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk 36
+
 
     defaultConfig {
         applicationId "com.altynbekova.banks"

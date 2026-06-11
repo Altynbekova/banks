@@ -8,8 +8,8 @@ import com.yandex.mapkit.geometry.Point;
 
 @Entity (tableName = "banks")
 public class Bank {
-    @PrimaryKey
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
     private String name;
     private String address;
     private String status;

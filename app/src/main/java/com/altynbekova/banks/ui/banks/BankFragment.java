@@ -109,13 +109,18 @@ public class BankFragment extends Fragment {
         dialog.setContentView(dialogView);
 
         EditText bankName = dialogView.findViewById(R.id.bankName);
+        EditText bankAddress = dialogView.findViewById(R.id.bankAddress);
+        EditText bankStatus = dialogView.findViewById(R.id.bankStatus);
         Button saveBtn = dialogView.findViewById(R.id.save);
 
         saveBtn.setOnClickListener(v -> {
             Bank newBank = new Bank();
             newBank.setName(bankName.getText().toString().trim());
+            newBank.setAddress(bankAddress.getText().toString().trim());
+            newBank.setStatus(bankStatus.getText().toString().trim());
 
             bankViewModel.insert(newBank);
+            dialog.dismiss();
         });
 
         dialog.show();

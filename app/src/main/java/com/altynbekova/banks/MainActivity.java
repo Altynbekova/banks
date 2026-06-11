@@ -66,8 +66,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        /*MenuItem menuItem = menu.findItem(R.id.action_theme);
-        menuItem.setTitle("Dark");*/
+        MenuItem menuItem = menu.findItem(R.id.action_theme);
+        if(isDarkModeActive()){
+            menuItem.setTitle("Светлая тема");
+            menuItem.setIcon(R.drawable.light_mode_24px);
+        } else {
+            menuItem.setTitle("Темная тема");
+            menuItem.setIcon(R.drawable.dark_mode_24px);
+        }
         return true;
     }
 
@@ -76,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_theme){
-            //todo toggle theme
-            Snackbar.make(this.findViewById(R.id.action_theme), "Смена темы", Snackbar.LENGTH_LONG).show();
+            toggleTheme();
+//            Snackbar.make(this.findViewById(R.id.action_theme), "Смена темы", Snackbar.LENGTH_LONG).show();
             return true;
         }
         //headerView.setText(item.getTitle());
@@ -95,5 +101,19 @@ public class MainActivity extends AppCompatActivity {
         boolean isDarkMode = sharedPreferences.getBoolean(KEY_IS_DARK_MODE, isDarkSystem);
         AppCompatDelegate.setDefaultNightMode(isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES :
                 AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    private void toggleTheme(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (isDarkModeActive()){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            editor.putBoolean(KEY_IS_DARK_MODE, false);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            editor.putBoolean(KEY_IS_DARK_MODE, true);
+        }
+
+        editor.apply();
+        recreate();
     }
 }

@@ -16,7 +16,7 @@ public interface BankDao {
     @Query("select * from banks")
     LiveData<List<Bank>> getAll();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(Bank bank);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

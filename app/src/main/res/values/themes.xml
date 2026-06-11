@@ -2,7 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Banks" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/light_primary</item>
+         <item name="colorSecondary">@color/light_secondary</item>
+
+        <item name="colorSurface">@color/light_surface</item>
+        <item name="colorOnSurface">@color/light_on_surface</item>
+        <item name="android:windowBackground">@color/light_background</item>
+        <item name="colorOnBackground">@color/light_on_background</item>
     </style>
 
     <style name="Theme.Banks" parent="Base.Theme.Banks" />
